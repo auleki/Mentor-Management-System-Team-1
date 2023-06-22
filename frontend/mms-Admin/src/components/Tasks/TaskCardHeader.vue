@@ -9,9 +9,10 @@
     </h3>
     <div class="flex gap-2 items-center">
       <span><IconCalendar /></span>
-      <span class="text-gray-300 mt-1 text-xs"
-        >{{ daysDue }} days from now</span
-      >
+      <span class="text-gray-300 mt-1 text-xs">
+        {{ (due_date && new Date(due_date).toDateString()) || "N/A" }} days from
+        now
+      </span>
     </div>
   </section>
 </template>
@@ -21,10 +22,14 @@ import { IconCalendar } from "@/assets/icons";
 import { IconTask } from "../Icons";
 
 type Props = {
-  title: string;
-  daysDue: number;
+  id: string;
+  title?: string;
+  due_date?: string;
   truncate?: boolean;
+  source?: string;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+console.log("prop from task card header", props);
 </script>

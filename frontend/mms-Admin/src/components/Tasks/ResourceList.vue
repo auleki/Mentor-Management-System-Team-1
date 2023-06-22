@@ -9,26 +9,43 @@
     <div class="flex gap-3 flex-col">
       <ResourceItem
         v-for="resource in resources"
-        :onClick="onClick"
+        :isSelected="selectedResources.includes(resource.id)"
+        :onClick="() => onClick(resource.id, resourceType)"
         :resource="resource"
-        :selectedResources="selectedResources"
+        :selectedResources="$props.selectedResources"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, computed, ref} from "vue";
 import { IconSearch } from "@/assets/icons";
 import IconFilter from "../Icons/IconFilter.vue";
 import ResourceItem from "./ResourceItem.vue";
 import IconCancel from "../Icons/IconCancel.vue";
-import type { ResourceType } from "@/typings/components";
+import type { ITask, ResourceType } from "@/typings/components";
+import { RESOURCE_TYPE } from "@/helpers/enum";
 
 type Props = {
+  resourceType: string;
   resources: ResourceType[];
   selectedResources: number[];
-  onClick: (resourceId: number) => void;
+  onClick: (resourceId: number, resourceType: string) => void;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const _selectedList = ref<{}[]>(props.selectedResources)
+
+const updateList = (mentor: any) => {
+  _selectedList.value.push(mentor)
+}
+onMounted(() => {
+  console.log('Resource List', props.resources)
+  console.log('Resource Type', props.resourceType)
+})
+
+defineEmits(['updateSelectedList'])
+
 </script>

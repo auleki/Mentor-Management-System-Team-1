@@ -2,9 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../views/Dashboard/Dashboard.vue";
 import dashboardLayout from "@/layouts/dashboardLayout.vue";
 import settingsLayout from "@/layouts/settingsLayout.vue";
-import reportLayout from "@/layouts/reportLayout.vue"
+import reportLayout from "@/layouts/reportLayout.vue";
 import { useAuthStore } from "@/store/auth";
 import blankLayout from "@/layouts/blankLayout.vue";
+import tasksLayout from "@/layouts/tasksLayout.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -97,14 +98,19 @@ const router = createRouter({
           path: "tasks",
           name: "tasks",
           component: blankLayout,
-          redirect: "/admin/tasks/all",
+          redirect: "/admin/tasks/",
           meta: {
             requiresAuth: true,
           },
           children: [
             {
-              path: "all",
+              path: "",
               name: "allTasks",
+              component: () => import("@/views/Tasks/EmptyTask.vue"),
+            },
+            {
+              path: ":id",
+              name: "single-task",
               component: () => import("@/views/Tasks/Tasks.vue"),
             },
             {
@@ -128,23 +134,23 @@ const router = createRouter({
             {
               path: "programs",
               name: "programs-reports",
-              component: () => import("@/views/Reports/EmptyReport.vue")
+              component: () => import("@/views/Reports/EmptyReport.vue"),
             },
             {
               path: "tasks",
               name: "tasks-reports",
-              component: () => import("@/views/Reports/EmptyReport.vue")
+              component: () => import("@/views/Reports/EmptyReport.vue"),
             },
             {
               path: "tasks/:id",
               name: "task-report",
-              component: () => import("@/views/Reports/TaskReports.vue")
+              component: () => import("@/views/Reports/TaskReports.vue"),
             },
             {
               path: "programs/:id",
               name: "programs-report",
-              component: () => import("@/views/Reports/ProgramReports.vue")
-            }
+              component: () => import("@/views/Reports/ProgramReports.vue"),
+            },
           ],
           meta: {
             requiresAuth: true,

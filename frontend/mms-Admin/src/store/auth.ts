@@ -67,7 +67,7 @@ export const useAuthStore = defineStore({
           if (res.data.success) {
             this.setToken(res.data.data.access_token);
             this.authUser = res.data.data.user;
-            // router.push("admin/dashboard");
+            //this.router.push("admin/dashboard");
             location.reload();
             toaster.success(res.data.message);
           }

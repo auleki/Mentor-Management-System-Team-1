@@ -1,21 +1,34 @@
 <template>
-  <div class="card" :class="isSelected ? 'selected' : null" :onClick="onClick">
-    <TaskCardHeader :truncate="true" :title="title" :days-due="daysDue" />
-  </div>
+  <router-link :to="'/admin/tasks/' + id">
+    <div
+      class="card"
+      :class="isSelected ? 'selected' : null"
+      :onClick="onClick"
+    >
+      <TaskCardHeader
+        :id="id"
+        :truncate="true"
+        :title="title"
+        :due-date="dueDate"
+      />
+    </div>
+  </router-link>
 </template>
 
 <script setup lang="ts">
 import TaskCardHeader from "./TaskCardHeader.vue";
 
 type Props = {
+  id: string;
   title: string;
-  description: string;
-  daysDue: number;
+  details: string;
+  dueDate: string;
   isSelected: boolean;
   onClick: () => void;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+console.log("props from task card", props);
 </script>
 
 <style lang="scss">

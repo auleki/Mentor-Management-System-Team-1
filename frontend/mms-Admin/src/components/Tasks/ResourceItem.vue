@@ -17,46 +17,47 @@
       </div>
     </section>
     <span
-      @click="() => updateSelectedResources(resource.id)"
-      class="cursor-pointer"
+      @click="() => onClick(resource.id, RESOURCE_TYPE.MENTORS)"
+      class="cursor-pointer active:mt-3"
     >
       <IconAdd
         color="#058B94"
-        v-if="!_selectedResources.includes(resource.id)"
+        v-if="!_isSelected"
       />
       <IconTick
         color="#058B94"
-        v-else-if="_selectedResources.includes(resource.id)"
+        v-else-if="_isSelected"
       />
     </span>
   </div>
 </template>
 
+<!-- <script lang="ts">
+export default {}
+</script> -->
+
 <script setup lang="ts">
 import type { ResourceType } from "@/typings/components";
 import { IconAdd } from "../Icons";
 import IconTick from "../Icons/IconTick.vue";
-import { ref } from "vue";
-
-let _selectedResources = ref<number[]>([]);
+import { ref, computed, onMounted } from "vue";
+import { RESOURCE_TYPE } from "@/helpers/enum";
 
 type Props = {
   resource: ResourceType;
-  onClick: (id: number) => void;
+  isSelected: boolean
+  onClick: (id: number, resourceType: string) => void;
   selectedResources: number[];
 };
+const props = defineProps<Props>()
 
-const updateSelectedResources = (id: number) => {
-  if (!_selectedResources.value.includes(id)) {
-    _selectedResources.value = _selectedResources.value.concat(id);
-  } else {
-    _selectedResources.value = _selectedResources.value.filter(
-      (resource) => resource === id
-    );
-  }
-};
+const _isSelected = computed(() => props.selectedResources.includes(props.resource.id))
+
+onMounted(() => {
+  console.log('selectedRESSS', props.selectedResources)
+})
 
 const emit = defineEmits(["selectResource"]);
 
-defineProps<Props>();
+
 </script>
